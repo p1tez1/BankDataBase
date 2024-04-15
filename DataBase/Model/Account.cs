@@ -13,7 +13,7 @@ namespace DataBase.Program
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public int Balanc { get; set; }
-        List<Card> Card { get; set; }
+        public List<Card> Card { get; set; }
         
     }
 }
