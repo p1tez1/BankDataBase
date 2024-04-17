@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DataBase.Program
 {
     public class Account
     {
-        public Guid Id { get; set; } 
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string last_Name { get; set; }
         public string Email { get; set; }
@@ -13,7 +14,10 @@ namespace DataBase.Program
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public int Balanc { get; set; }
-        public List<Card> Card { get; set; }
-        
+        public DateTime Birthday { get; set; }
+        public bool Sex { get; set; }
+        public Guid CardId { get; set; }
+        public virtual Card Cards { get; set; } 
+        public ICollection<Card> Card { get; set; }
     }
 }

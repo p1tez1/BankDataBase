@@ -1,7 +1,7 @@
 ﻿using DataBase.Program;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyApplication.Models
+namespace BankDataBase.DB.CONTEXY
 {
     public class ApplicationDbContext : DbContext
     {
@@ -9,11 +9,20 @@ namespace MyApplication.Models
             : base(options)
         {
         }
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employes> Employes { get; set; }
         public DbSet<S_Path> S_Paths { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.Id).IsRequired();
+            });
+        }
     }
 }
