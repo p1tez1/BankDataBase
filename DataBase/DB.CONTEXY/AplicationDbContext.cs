@@ -22,6 +22,16 @@ namespace BankDataBase.DB.CONTEXY
             {
                 entity.HasKey(a => a.Id);
                 entity.Property(a => a.Id).IsRequired();
+
+                entity.HasOne(x => x.)
+            });
+
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.Id).IsRequired();
+
+                entity.HasMany(x => x.CardIds).WithOne(item => item.Id)
             });
         }
     }

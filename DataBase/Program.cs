@@ -1,5 +1,5 @@
+using BankDataBase.DB.CONTEXY;
 using Microsoft.EntityFrameworkCore;
-using MyApplication.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

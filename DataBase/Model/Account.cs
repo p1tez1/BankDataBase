@@ -16,8 +16,7 @@ namespace DataBase.Program
         public int Balanc { get; set; }
         public DateTime Birthday { get; set; }
         public bool Sex { get; set; }
-        public Guid CardId { get; set; }
-        public virtual Card Cards { get; set; } 
-        public ICollection<Card> Card { get; set; }
+        public ICollection<Guid> CardIds { get; set; }
+        public virtual ICollection<Card> Card { get; set; }
     }
 }
