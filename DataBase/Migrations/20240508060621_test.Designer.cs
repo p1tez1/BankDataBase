@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankDataBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240415085859_Pytel")]
-    partial class Pytel
+    [Migration("20240508060621_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace BankDataBase.Migrations
                     b.Property<int>("Balanc")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Birthday")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -45,6 +48,9 @@ namespace BankDataBase.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -58,11 +64,16 @@ namespace BankDataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Sex")
+                        .HasColumnType("bit");
+
                     b.Property<string>("last_Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Accounts");
                 });
@@ -73,7 +84,7 @@ namespace BankDataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AccountId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Balance")
@@ -116,6 +127,9 @@ namespace BankDataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -126,10 +140,12 @@ namespace BankDataBase.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("DataBase.Program.Employes", b =>
+            modelBuilder.Entity("DataBase.Program.Employee", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,6 +189,9 @@ namespace BankDataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Execution_Date")
                         .HasColumnType("datetime2");
 
@@ -181,19 +200,65 @@ namespace BankDataBase.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CardId");
+
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("DataBase.Program.Account", b =>
+                {
+                    b.HasOne("DataBase.Program.Customer", null)
+                        .WithMany("Accounts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBase.Program.Card", b =>
                 {
                     b.HasOne("DataBase.Program.Account", null)
-                        .WithMany("Card")
-                        .HasForeignKey("AccountId");
+                        .WithMany("Cards")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataBase.Program.Customer", b =>
+                {
+                    b.HasOne("DataBase.Program.Employee", null)
+                        .WithMany("Customers")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataBase.Program.Transaction", b =>
+                {
+                    b.HasOne("DataBase.Program.Card", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBase.Program.Account", b =>
                 {
-                    b.Navigation("Card");
+                    b.Navigation("Cards");
+                });
+
+            modelBuilder.Entity("DataBase.Program.Card", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("DataBase.Program.Customer", b =>
+                {
+                    b.Navigation("Accounts");
+                });
+
+            modelBuilder.Entity("DataBase.Program.Employee", b =>
+                {
+                    b.Navigation("Customers");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,5 +7,6 @@ namespace DataBase.Program
         public Guid Id { get; set; }
         public DateTime Execution_Date { get; set; }
         public bool IsCompleted { get; set; }
+        public Guid CardId { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataBase.Program
 {
@@ -16,7 +17,7 @@ namespace DataBase.Program
         public int Balanc { get; set; }
         public DateTime Birthday { get; set; }
         public bool Sex { get; set; }
-        public ICollection<Guid> CardIds { get; set; }
-        public virtual ICollection<Card> Card { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
+        public Guid CustomerId { get; set; }
     }
 }

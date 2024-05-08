@@ -12,26 +12,38 @@ namespace BankDataBase.DB.CONTEXY
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Employes> Employes { get; set; }
+        public DbSet<Employee> Employes { get; set; }
         public DbSet<S_Path> S_Paths { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>(entity =>
+            modelBuilder.Entity<Account>(a =>
             {
-                entity.HasKey(a => a.Id);
-                entity.Property(a => a.Id).IsRequired();
-
-                entity.HasOne(x => x.)
+                a.HasMany(b => b.Cards)
+                .WithOne()
+                .HasForeignKey(c => c.AccountId);
             });
 
-            modelBuilder.Entity<Account>(entity =>
+            modelBuilder.Entity<Card>(a =>
             {
-                entity.HasKey(a => a.Id);
-                entity.Property(a => a.Id).IsRequired();
+                a.HasMany(t => t.Transactions)
+                .WithOne()
+                .HasForeignKey(c => c.CardId);
+            });
 
-                entity.HasMany(x => x.CardIds).WithOne(item => item.Id)
+            modelBuilder.Entity<Customer>(a =>
+            {
+                a.HasMany(c => c.Accounts)
+                .WithOne()
+                .HasForeignKey(b => b.CustomerId);
+            });
+
+            modelBuilder.Entity<Employee>(a =>
+            {
+                a.HasMany(c => c.Customers)
+                .WithOne()
+                .HasForeignKey(b => b.EmployeeId);
             });
         }
     }
